@@ -1,6 +1,5 @@
 // ignore_for_file: avoid_print
 
-import 'package:bloc_note_app_api/data/notes_data_provider.dart';
 import 'package:bloc_note_app_api/data/notes_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,7 +20,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     emit(NotesLoading());
     try {
       final items =
-          await NotesRepository(dataProvider: NotesDataProvider()).getData();
+          await NotesRepository().getData();
       emit(NotesFetched(items: items));
     } catch (e) {
       throw Exception(e.toString());
@@ -34,7 +33,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     emit(NotesAdded());
     emit(NotesLoading());
     try {
-      final result = await NotesRepository(dataProvider: NotesDataProvider())
+      final result = await NotesRepository()
           .submitData(event.title, event.description);
       if (result == "success") {
         add(InitialNotesFetching());
@@ -50,7 +49,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
   _deleteNotePressed(DeleteNotePressed event, Emitter<NotesState> emit) async {
     emit(NotesLoading());
     try {
-      final result = await NotesRepository(dataProvider: NotesDataProvider())
+      final result = await NotesRepository()
           .deleteData(event.id);
       if (result == "success") {
         emit(NoteDeleted());
@@ -66,7 +65,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     emit(NotesAdded());
     emit(NotesLoading());
     try {
-      final result = await NotesRepository(dataProvider: NotesDataProvider())
+      final result = await NotesRepository()
           .updateData(event.id, event.title, event.description);
       if (result == "success") {
         add(InitialNotesFetching());

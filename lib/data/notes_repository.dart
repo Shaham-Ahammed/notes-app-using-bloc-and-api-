@@ -3,13 +3,11 @@ import 'package:http/http.dart' as http;
 import 'package:bloc_note_app_api/data/notes_data_provider.dart';
 
 class NotesRepository {
-  final NotesDataProvider dataProvider;
 
-  NotesRepository({required this.dataProvider});
 
   Future<List<dynamic>> getData() async {
     try {
-      final respone = await dataProvider.dataProviderFetchData();
+      final respone = await NotesDataProvider().dataProviderFetchData();
       if (respone.statusCode == 200) {
         final body = respone.body;
         final json = jsonDecode(body);
@@ -22,7 +20,7 @@ class NotesRepository {
   }
 
   submitData(String title, String description) async {
-    final body = dataProvider.dataProviderSubmitData(title, description);
+    final body = NotesDataProvider().dataProviderSubmitData(title, description);
     const url = 'https://api.nstack.in/v1/todos';
 
     final uri = Uri.parse(url);
@@ -40,7 +38,7 @@ class NotesRepository {
 
   deleteData(String id) async {
     try {
-      final response = await dataProvider.dataProviderDeleteData(id);
+      final response = await NotesDataProvider().dataProviderDeleteData(id);
       if (response.statusCode == 200) {
         return "success";
       }
@@ -53,7 +51,7 @@ class NotesRepository {
     try {
       final url = "https://api.nstack.in/v1/todos/$id";
       final uri = Uri.parse(url);
-      final body = dataProvider.dataProviderEditData(title, description);
+      final body = NotesDataProvider().dataProviderEditData(title, description);
       final response = await http.put(uri,
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode(body));
