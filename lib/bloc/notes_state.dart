@@ -5,10 +5,16 @@ sealed class NotesState {}
 
 final class NotesInitial extends NotesState {}
 
+final class NotesLoading extends NotesState {}
+
+
 final class NotesFetched extends NotesState {
   final List<dynamic> items;
   NotesFetched({required this.items});
 }
+
+
+final class NotesAdded extends NotesState {}
 
 final class NotesAddingError extends NotesState {
   final String error;
@@ -16,9 +22,7 @@ final class NotesAddingError extends NotesState {
   NotesAddingError(this.error);
 }
 
-final class NotesLoading extends NotesState {}
-
-final class NotesAdded extends NotesState {}
+final class NoteDeleted extends NotesState{}
 
 final class DeletionError extends NotesState {
   final String error;
@@ -26,8 +30,6 @@ final class DeletionError extends NotesState {
   DeletionError(this.error);
 
 }
-
-final class NoteDeleted extends NotesState{}
 
 final class NotesUpdationError extends NotesState{
     final String error;

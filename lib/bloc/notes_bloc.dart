@@ -23,7 +23,9 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
           await NotesRepository().getData();
       emit(NotesFetched(items: items));
     } catch (e) {
+    
       throw Exception(e.toString());
+       
     }
   }
 
@@ -60,6 +62,8 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
       add(InitialNotesFetching());
     }
   }
+  
+  //edit button pressed
 
   _editNotePressed(EditNotePressed event, Emitter<NotesState> emit) async {
     emit(NotesAdded());
@@ -74,9 +78,10 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
         add(InitialNotesFetching());
       }
     } catch (e) {
-      emit(NotesUpdationError(e.toString()));
+      emit(NotesUpdationError(e.toString()));  
     }
   }
+
 
   @override
   void onTransition(Transition<NotesEvent, NotesState> transition) {

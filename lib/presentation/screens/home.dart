@@ -3,8 +3,8 @@ import 'package:bloc_note_app_api/presentation/widgets/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
- TextEditingController titleController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
+TextEditingController titleController = TextEditingController();
+TextEditingController descriptionController = TextEditingController();
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -20,7 +20,6 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
- 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,6 +122,4 @@ class _HomeState extends State<Home> {
       ),
     );
   }
-
- 
 }
