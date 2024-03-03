@@ -9,8 +9,8 @@ final class NotesLoading extends NotesState {}
 
 
 final class NotesFetched extends NotesState {
-  final List<dynamic> items;
-  NotesFetched({required this.items});
+  final List<NotesModel> notes;
+  NotesFetched({required this.notes});
 }
 
 

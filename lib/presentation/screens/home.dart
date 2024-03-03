@@ -61,7 +61,7 @@ class _HomeState extends State<Home> {
           );
         }
         if (state is NotesFetched) {
-          if (state.items.isEmpty) {
+          if (state.notes.isEmpty) {
             return const Expanded(
                 child: Center(
               child: Text(
@@ -71,12 +71,12 @@ class _HomeState extends State<Home> {
             ));
           }
           return ListView.builder(
-              itemCount: state.items.length,
+              itemCount: state.notes.length,
               itemBuilder: (context, index) {
-                final item = state.items[index];
-                final id = item['_id'];
+                final item = state.notes[index];
+                final id = item.id;
                 return Padding(
-                  padding: index == state.items.length - 1
+                  padding: index == state.notes.length - 1
                       ? const EdgeInsets.only(bottom: 80)
                       : const EdgeInsets.all(0),
                   child: Card(
@@ -84,8 +84,8 @@ class _HomeState extends State<Home> {
                     margin: const EdgeInsets.all(10),
                     elevation: 3,
                     child: ListTile(
-                      title: Text(item['title']),
-                      subtitle: Text(item['description']),
+                      title: Text(item.title),
+                      subtitle: Text(item.description),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [

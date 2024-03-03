@@ -6,8 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 void showsheet(
     BuildContext context, String? id, int? index, NotesFetched? state) {
   if (id != null) {
-    titleController.text = state!.items[index!]['title'];
-    descriptionController.text = state.items[index]['description'];
+    titleController.text = state!.notes[index!].title;
+    descriptionController.text = state.notes[index].description;
   } else {
     if (id == null) {
       titleController.clear();

@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:bloc_note_app_api/data/notes_repository.dart';
+import 'package:bloc_note_app_api/model/model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 part 'notes_event.dart';
@@ -19,13 +20,15 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
       InitialNotesFetching event, Emitter<NotesState> emit) async {
     emit(NotesLoading());
     try {
-      final items =
-          await NotesRepository().getData();
-      emit(NotesFetched(items: items));
+      final items = await NotesRepository().getData();
+      final List<NotesModel> notes = [];
+      for (int i = 0; i < items.length; i++) {
+        notes.add(NotesModel(
+            title: items[i]['title'], description: items[i]['description'],id: items[i]["_id"]));
+      }
+      emit(NotesFetched(notes: notes));
     } catch (e) {
-    
       throw Exception(e.toString());
-       
     }
   }
 
@@ -35,8 +38,8 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     emit(NotesAdded());
     emit(NotesLoading());
     try {
-      final result = await NotesRepository()
-          .submitData(event.title, event.description);
+      final result =
+          await NotesRepository().submitData(event.title, event.description);
       if (result == "success") {
         add(InitialNotesFetching());
       }
@@ -51,8 +54,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
   _deleteNotePressed(DeleteNotePressed event, Emitter<NotesState> emit) async {
     emit(NotesLoading());
     try {
-      final result = await NotesRepository()
-          .deleteData(event.id);
+      final result = await NotesRepository().deleteData(event.id);
       if (result == "success") {
         emit(NoteDeleted());
         add(InitialNotesFetching());
@@ -62,7 +64,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
       add(InitialNotesFetching());
     }
   }
-  
+
   //edit button pressed
 
   _editNotePressed(EditNotePressed event, Emitter<NotesState> emit) async {
@@ -78,10 +80,9 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
         add(InitialNotesFetching());
       }
     } catch (e) {
-      emit(NotesUpdationError(e.toString()));  
+      emit(NotesUpdationError(e.toString()));
     }
   }
-
 
   @override
   void onTransition(Transition<NotesEvent, NotesState> transition) {
